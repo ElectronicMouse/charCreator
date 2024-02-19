@@ -1,7 +1,7 @@
 //imports
 const fs = require("fs");
-const Category = require("./category.cjs");
-const Parser = require("./parser.cjs");
+const Category = require("./bin/category.cjs");
+const Parser = require("./bin/parser.cjs");
 //initiate classes
 const parser = new Parser();
 //array for categories
@@ -39,7 +39,7 @@ categories.push(
   ])
 );
 categories.push(
-  new Category("LIFE", "4d6h3", [
+  new Category("LIFE", "1d1h1+20", [
     "woodcutting",
     "fishing",
     "firemaking",
@@ -82,6 +82,16 @@ categories.push(
   ])
 );
 
+categories.push(
+  new Category("DND", "4d6h3", [
+    "strength",
+    "constitution",
+    "dexterity",
+    "inteligence",
+    "wisdom",
+    "charisma",
+  ])
+);
 /*
 * Benchmark:
 categories.push(new Category("TEST 1", ["test 1", "test 2", "test 3"]));
@@ -122,11 +132,10 @@ class Creator {
         resultStats.push(randomFraction);
       }
     } else {
-        for (let i = 0; i < skills; i++) {
-            resultStats.push(parser.parse(stats));
-            parser.clear();
-          }
-        
+      for (let i = 0; i < skills; i++) {
+        resultStats.push(parser.parse(stats));
+        parser.clear();
+      }
     }
   }
   /**
