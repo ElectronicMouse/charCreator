@@ -1,0 +1,84 @@
+[
+  {
+    "name": "FIGHTING",
+    "statCalculation": "1000",
+    "skills": [
+      "long blades",
+      "polearms",
+      "staffs",
+      "maces",
+      "flails",
+      "axes",
+      "unarmed",
+      "short blades",
+      "bows",
+      "slings",
+      "crossbows",
+      "throwing",
+      "light armor",
+      "heavy armor",
+      "dodging",
+      "shield",
+      "stealth"
+    ]
+  },
+  {
+    "name": "LIFE",
+    "statCalculation": "1d1h1+20",
+    "skills": [
+      "woodcutting",
+      "fishing",
+      "firemaking",
+      "cooking",
+      "mining",
+      "smithing",
+      "thieving",
+      "fletching",
+      "crafting",
+      "runecrafting",
+      "herblore",
+      "farming",
+      "brewing"
+    ]
+  },
+  {
+    "name": "MAGIC",
+    "statCalculation": "20",
+    "skills": [
+      "conjuration",
+      "hexes",
+      "summoning",
+      "necromancy",
+      "translocation",
+      "alchemy",
+      "fire magic",
+      "water magic",
+      "air magic",
+      "earth magic",
+      "invocations",
+      "evocations",
+      "shapeshifting",
+      "abjuration",
+      "illusion",
+      "chronomancy",
+      "graviturgy",
+      "divination",
+      "enchantement",
+      "transmutation",
+      "artifice",
+      "onomancy"
+    ]
+  },
+  {
+    "name": "DND",
+    "statCalculation": "4d6h3",
+    "skills": [
+      "strength",
+      "constitution",
+      "dexterity",
+      "inteligence",
+      "wisdom",
+      "charisma"
+    ]
+  }
+]

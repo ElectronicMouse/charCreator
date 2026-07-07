@@ -1,1 +1,1 @@
-npm start Trial
+npm start Trial demo

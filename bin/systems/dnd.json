@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Stats - 4d6 drop lowest 1",
+    "statCalculation": "4d6h3",
+    "skills": [
+      "strength",
+      "constitution",
+      "dexterity",
+      "inteligence",
+      "wisdom",
+      "charisma"
+    ]
+  }
+]
