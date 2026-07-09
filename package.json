@@ -2,12 +2,37 @@
   "name": "charcreator",
   "version": "1.0.0",
   "description": "creates char",
-  "main": "creator.js",
+  "main": "main.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node creator.js"
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "ChattyTurtle (ElectronicMouse)",
+  "license": "ISC",
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.1"
+  },
+  "allowScripts": {
+    "aws-sdk@2.1693.0": true,
+    "aws-sdk@2.0.31": true,
+    "core-js@2.6.12": true,
+    "spawn-sync@1.0.15": true,
+    "electron-forge@5.2.4": true
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.11.2",
+    "@electron-forge/maker-deb": "^7.11.2",
+    "@electron-forge/maker-rpm": "^7.11.2",
+    "@electron-forge/maker-squirrel": "^7.11.2",
+    "@electron-forge/maker-zip": "^7.11.2",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.11.2",
+    "@electron-forge/plugin-fuses": "^7.11.2",
+    "@electron/fuses": "^1.8.0",
+    "electron": "^43.1.0"
+  }
 }

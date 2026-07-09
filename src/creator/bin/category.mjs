@@ -1,4 +1,4 @@
-module.exports = class Category {
+export default class Category {
   constructor(name, statCalculation, skills) {
     this.name = name;
     this.statCalculation = statCalculation;

@@ -1,0 +1,56 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #1e1e1e;
+    color: white;
+    font-family: sans-serif;
+}
+
+/* 3-column layout */
+.layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    /* 3 equal columns */
+    height: 100vh;
+}
+
+.column {
+    padding: 20px;
+    border-right: 1px solid #333;
+}
+
+.left-column {
+    width: 60%;
+}
+
+.column:last-child {
+    border-right: none;
+}
+
+/* Left column form styling */
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input,
+select,
+button {
+    width: 100%;
+    margin-top: 5px;
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+    background: #2e2e2e;
+    color: white;
+}
+
+button {
+    background: #444;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+button:hover {
+    background: #555;
+}

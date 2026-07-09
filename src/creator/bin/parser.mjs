@@ -1,4 +1,4 @@
-module.exports = class Parser {
+export default class Parser {
   min = 0;
   max = 0;
   count = 0;
