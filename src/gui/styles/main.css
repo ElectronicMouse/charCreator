@@ -8,9 +8,7 @@ body {
 
 /* 3-column layout */
 .layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    /* 3 equal columns */
+    display: flex;
     height: 100vh;
 }
 
@@ -20,7 +18,13 @@ body {
 }
 
 .left-column {
-    width: 60%;
+    width: 30%;
+}
+.right-column {
+    width: 30%;
+}
+.middle-column {
+    width: 100%;
 }
 
 .column:last-child {
