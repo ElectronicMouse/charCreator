@@ -3,13 +3,15 @@ import Creator from "./src/creator/creator.js";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import path from "path";
-import Tracer from "./src/bin/modules/tracer.mjs";
+import Tracer from "./src/creator/bin/modules/tracer.mjs";
+import Util from "./src/creator/bin/modules/util.mjs";
 
+const util = new Util();
 const tracer = new Tracer()
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const __gui = path.join(__dirname, "src/gui");
+const __gui = path.join(__dirname, util.path_gui);
 const __systems = path.join(__dirname, "src/creator/bin/systems");
 
 function createWindow() {
