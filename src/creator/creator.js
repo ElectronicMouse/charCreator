@@ -2,9 +2,11 @@
 import fs from "fs";
 import Category from "./bin/modules/category.mjs";
 import Parser from "./bin/modules/parser.mjs";
+import Util from "./bin/modules/util.mjs";
 
 // class-level parser
 const parser = new Parser();
+const util = new Util();
 
 class Creator {
   constructor() {
@@ -17,7 +19,7 @@ class Creator {
    * Loads system JSON file (systems/*.json)
    */
   loadSystem(systemName) {
-    const systemsFile = `./src/creator/bin/systems/${systemName}.json`;
+    const systemsFile = `./src/creator/bin/systems/${systemName}/${systemName}.json`;
 
     if (!fs.existsSync(systemsFile)) {
       throw new Error(`System file not found: ${systemsFile}`);
@@ -28,8 +30,14 @@ class Creator {
       const systems = JSON.parse(raw);
 
       systems.forEach(sys => {
+
+        let sysName = util.check(sys.name, "Unnamed Category");
+        let sysStatCalculation = util.check(sys.statCalculation, "1");
+        let sysSkills = util.check(sys.skills, []);
+        let sysSubfunctions = util.check(sys.subfunctions, []);
+        
         this.categories.push(
-          new Category(sys.name, sys.statCalculation, sys.skills)
+          new Category(sysName, sysStatCalculation, sysSkills, sysSubfunctions)
         );
       });
     } catch (err) {
