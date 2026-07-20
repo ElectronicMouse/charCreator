@@ -8,5 +8,5 @@
  4) develop given task and then commit
 
 ## dev testing
- - npm start => in cmd (run without building final product to test the feature)
- - npm make => in cmd (to generate exe file locally and try to run it)
+ - npm run start => in cmd (run without building final product to test the feature)
+ - npm run make => in cmd (to generate exe file locally and try to run it)
