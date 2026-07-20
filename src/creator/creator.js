@@ -1,7 +1,7 @@
 // imports
 import fs from "fs";
-import Category from "./bin/category.mjs";
-import Parser from "./bin/parser.mjs";
+import Category from "./bin/modules/category.mjs";
+import Parser from "./bin/modules/parser.mjs";
 
 // class-level parser
 const parser = new Parser();

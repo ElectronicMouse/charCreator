@@ -3,7 +3,7 @@ import Creator from "./src/creator/creator.js";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import path from "path";
-import Tracer from "./src/tools/tracer.mjs";
+import Tracer from "./src/bin/modules/tracer.mjs";
 
 const tracer = new Tracer()
 

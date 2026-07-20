@@ -13,7 +13,7 @@
   },
   "keywords": [],
   "author": "ChattyTurtle (ElectronicMouse)",
-  "license": "ISC",
+  "license": "Creative Commons Legal Code",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1"
   },
