@@ -2,16 +2,16 @@
 import fs from "fs";
 import Category from "./bin/modules/category.mjs";
 import Parser from "./bin/modules/parser.mjs";
-import Util from "./bin/modules/util.mjs";
+import path from "path";
 
 // class-level parser
 const parser = new Parser();
-const util = new Util();
 
-class Creator {
-  constructor() {
+export default class Creator {
+  constructor(util) {
+    this.util = util;
     this.categories = [];
-    this.resultStats = [];
+    this.resultStats = new Map();
     this.statsAmAt = 0;
   }
 
@@ -19,8 +19,13 @@ class Creator {
    * Loads system JSON file (systems/*.json)
    */
   loadSystem(systemName) {
-    const systemsFile = `./src/creator/bin/systems/${systemName}/${systemName}.json`;
-
+    console.log("Loading system: " + systemName);
+    const systemsFile = path.join(
+      this.util.SYSTEMS_DIR,
+      systemName,
+      `${systemName}${this.util.JSON_SUFFIX}`
+    );
+    console.log(systemsFile);
     if (!fs.existsSync(systemsFile)) {
       throw new Error(`System file not found: ${systemsFile}`);
     }
@@ -28,14 +33,12 @@ class Creator {
     try {
       const raw = fs.readFileSync(systemsFile, "utf8");
       const systems = JSON.parse(raw);
-
       systems.forEach(sys => {
 
-        let sysName = util.check(sys.name, "Unnamed Category");
-        let sysStatCalculation = util.check(sys.statCalculation, "1");
-        let sysSkills = util.check(sys.skills, []);
-        let sysSubfunctions = util.check(sys.subfunctions, []);
-        
+        let sysName = this.util.check(sys.name, "Unnamed Category");
+        let sysStatCalculation = this.util.check(sys.statCalculation, "1");
+        let sysSkills = this.util.check(sys.skills, []);
+        let sysSubfunctions = this.util.check(sys.subfunctions, []);
         this.categories.push(
           new Category(sysName, sysStatCalculation, sysSkills, sysSubfunctions)
         );
@@ -50,14 +53,14 @@ class Creator {
    */
   characterCreate(name, systemName) {
     this.loadSystem(systemName);
-
+    console.log(this.categories);
     // calculate stats
     this.categories.forEach(category => {
-      this.calculate(category.statCalculation, category.skills.length);
+      this.calculate(category.statCalculation, category.skills);
     });
 
     // write output file
-    const filePath = `./${name}.txt`;
+    const filePath = path.join(this.util.ROOT_DIR, `${name}${this.util.TXT_SUFFIX}`);
     this.writeName(name, filePath);
 
     this.categories.forEach(category => {
@@ -71,16 +74,15 @@ class Creator {
    * Calculates stats based on roll pattern or numeric max
    */
   calculate(stats, skills) {
-    if (!isNaN(Number(stats))) {
-      // numeric max
-      for (let i = 0; i < skills; i++) {
+    console.log("Calculating stats for skills:", skills, "with pattern:", stats);
+    for (let i = 0; i < skills.length; i++) {
+      if (!isNaN(Number(stats))) {
+        // numeric pattern
         let randomFraction = Math.round(Math.random() * stats);
-        this.resultStats.push(randomFraction);
-      }
-    } else {
-      // dice pattern
-      for (let i = 0; i < skills; i++) {
-        this.resultStats.push(parser.parse(stats));
+        this.resultStats.set(skills[i], randomFraction);
+      } else {
+        //dice pattern
+        this.resultStats.set(skills[i], parser.parse(stats));
         parser.clear();
       }
     }
@@ -107,7 +109,7 @@ class Creator {
       array.forEach(skill => {
         fs.appendFileSync(
           path,
-          `\t\t${skill}: ${this.resultStats[this.statsAmAt++]}\n`
+          `\t\t${skill}: ${this.resultStats.get(skill)}\n`
         );
       });
     } catch (err) {
@@ -115,5 +117,3 @@ class Creator {
     }
   }
 }
-
-export default Creator;

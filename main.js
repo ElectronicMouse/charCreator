@@ -1,5 +1,5 @@
 import { app, BrowserWindow, ipcMain } from "electron";
-import Creator from "./src/creator/creator.js";
+import Creator from "./src/creator/creator.mjs";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import path from "path";
@@ -7,28 +7,23 @@ import Tracer from "./src/creator/bin/modules/tracer.mjs";
 import Util from "./src/creator/bin/modules/util.mjs";
 
 const util = new Util();
-const tracer = new Tracer()
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const __gui = path.join(__dirname, util.path_gui);
-const __systems = path.join(__dirname, "src/creator/bin/systems");
+const tracer = new Tracer(util);
+const creator = new Creator(util);
 
 function createWindow() {
   const win = new BrowserWindow({
     fullscreen: true,
-    icon: path.join(__gui, "icons/icon.png"),
+    icon: path.join(util.GUI_ICONS, util.APP_LOGO),
     webPreferences: {
-      preload: path.join(__dirname, "preload.js")
+      preload: path.join(util.ROOT_DIR, util.PRELOAD_JS)
     }
   });
 
-    win.loadFile(path.join(__dirname, "index.html"));
+    win.loadFile(path.join(util.ROOT_DIR, util.INDEX_HTML));
 }
 
-ipcMain.handle("generate", async (event, name, system) => {
+ipcMain.handle(util.IPC_LISTENER_GENERATE, async (event, name, system) => {
   try {
-    const creator = new Creator();
     const filePath = creator.characterCreate(name, system);
     return { ok: true, filePath };
   } catch (err) {
@@ -36,26 +31,39 @@ ipcMain.handle("generate", async (event, name, system) => {
   }
 });
 
-ipcMain.handle("listSystems", async () => {
-  const files = fs.readdirSync(__systems)
-    .filter(f => f.endsWith(".json"))
-    .map(f => f.replace(".json", ""));
+ipcMain.handle(util.IPC_LISTENER_LIST_SYSTEMS, async () => {
+  const dirs = fs.readdirSync(util.SYSTEMS_DIR, { withFileTypes: true })
+    .filter(dir => dir.isDirectory())
+    .map(dir => dir.name);
 
-  return files;
+  const systems = [];
+
+  for (const dir of dirs) {
+    const folder = path.join(util.SYSTEMS_DIR, dir);
+
+    const json = fs.readdirSync(folder)
+      .find(f => f.endsWith(util.JSON_SUFFIX));
+
+    if (json) {
+      systems.push(dir);
+    }
+  }
+
+  return systems;
 });
 
-ipcMain.on('trace', (event, trace, level, line) => {
+ipcMain.handle(util.IPC_LISTENER_TRACE, (event, trace, level, line) => {
   tracer.log(trace, level, line);
 })
 
-ipcMain.on('cleartrace', (event) => {
+ipcMain.handle(util.IPC_LISTENER_CLEAR_TRACE, (event) => {
   tracer.clearlog();
 })
 
 app.whenReady().then(createWindow);
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
+app.on(util.APP_LISTENER_ON_APP_CLOSE, () => {
+  if (process.platform !== util.PLATFORM_MAC) {
     app.quit();
   }
 });

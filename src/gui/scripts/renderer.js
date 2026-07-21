@@ -25,6 +25,12 @@ async function resolver(input, ...params) {
     case "generate":
       const result = await window.api.generate(params[0], params[1]);
       break;
+      case "trace":
+      window.api.trace(params[0], params[1], params[2]);
+      break;
+      case "cleartrace":
+      window.api.cleartrace();
+      break;
     default:
       renderResult.innerHTML = "";
       break;

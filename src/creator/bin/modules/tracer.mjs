@@ -1,20 +1,24 @@
 import fs from "fs";
 
 export default class Tracer {
+  constructor(util) {
+    this.util = util;
+  }
+
   log(message, logLevel, logLine) {
     const date = new Date();
-    const options = { 
-  day: '2-digit', 
-  month: '2-digit', 
-  year: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit',
-  second: '2-digit'
-};
-const logTime = date.toLocaleString('en-GB', options);
+    const options = {
+      day: this.util.ISO_2_DIGIT,
+      month: this.util.ISO_2_DIGIT,
+      year: this.util.ISO_NUMERIC,
+      hour: this.util.ISO_2_DIGIT,
+      minute: this.util.ISO_2_DIGIT,
+      second: this.util.ISO_2_DIGIT
+    };
+    const logTime = date.toLocaleString(this.util.getSystemLocale(), options);
     const logEntry = `${logTime}; ${logLevel}; ${logLine}; ${message}\n`;
 
-    fs.appendFile('./bin/logs/logfile.txt', logEntry, function(err) {
+    fs.appendFile(this.util.LOGS_DIR + '/' + this.util.LOG_FILE, logEntry, function (err) {
       if (err) {
         console.log('Error writing to log file:', err);
       } else {
@@ -22,8 +26,8 @@ const logTime = date.toLocaleString('en-GB', options);
       }
     });
   }
-  clearlog(){
-    fs.truncate('./bin/logs/logfile.txt', function(err) {
+  clearlog() {
+    fs.truncate(this.util.LOGS_DIR + '/' + this.util.LOG_FILE, function (err) {
       if (err) {
         console.log('Error writing to log file:', err);
       } else {
