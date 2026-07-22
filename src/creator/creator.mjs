@@ -12,6 +12,7 @@ export default class Creator {
     this.util = util;
     this.categories = [];
     this.resultStats = new Map();
+    this.resultModifiers = new Map();
     this.statsAmAt = 0;
   }
 
@@ -56,7 +57,7 @@ export default class Creator {
     console.log(this.categories);
     // calculate stats
     this.categories.forEach(category => {
-      this.calculate(category.statCalculation, category.skills);
+      this.calculate(category);
     });
 
     // write output file
@@ -73,16 +74,17 @@ export default class Creator {
   /**
    * Calculates stats based on roll pattern or numeric max
    */
-  calculate(stats, skills) {
-    console.log("Calculating stats for skills:", skills, "with pattern:", stats);
-    for (let i = 0; i < skills.length; i++) {
-      if (!isNaN(Number(stats))) {
+  calculate(category) {
+    console.log("Calculating stats for skills:", category.skills, "with pattern:", category.statCalculation);
+    let pattern = category.statCalculation;
+    for (let i = 0; i < category.skills.length; i++) {
+      if (!isNaN(Number(pattern))) {
         // numeric pattern
-        let randomFraction = Math.round(Math.random() * stats);
-        this.resultStats.set(skills[i], randomFraction);
+        let randomFraction = Math.round(Math.random() * pattern);
+        this.resultStats.set(category.skills[i], randomFraction);
       } else {
         //dice pattern
-        this.resultStats.set(skills[i], parser.parse(stats));
+        this.resultStats.set(category.skills[i], parser.parse(pattern));
         parser.clear();
       }
     }
@@ -115,5 +117,12 @@ export default class Creator {
     } catch (err) {
       console.error("Error writing stats:", err);
     }
+  }
+
+  clean() {
+    this.categories = [];
+    this.resultStats = new Map();
+    this.resultModifiers = new Map();
+    this.statsAmAt = 0;
   }
 }

@@ -23,6 +23,7 @@ function createWindow() {
 }
 
 ipcMain.handle(util.IPC_LISTENER_GENERATE, async (event, name, system) => {
+  creator.clean();
   try {
     const filePath = creator.characterCreate(name, system);
     return { ok: true, filePath };
