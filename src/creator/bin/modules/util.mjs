@@ -19,7 +19,7 @@ export default class Util {
     INDEX_HTML = "index.html";
     PRELOAD_JS = "preload.js";
     LOG_FILE = "logfile.txt";
-    
+
     //public file suffixes
     JSON_SUFFIX = ".json";
     TXT_SUFFIX = ".txt";
@@ -41,6 +41,7 @@ export default class Util {
     //public ISO formats
     ISO_2_DIGIT = "2-digit";
     ISO_NUMERIC = "numeric";
+    ISO_UTF8 = "utf-8";
 
 
     //public helper functions

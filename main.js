@@ -19,7 +19,7 @@ function createWindow() {
     }
   });
 
-    win.loadFile(path.join(util.ROOT_DIR, util.INDEX_HTML));
+  win.loadFile(path.join(util.ROOT_DIR, util.INDEX_HTML));
 }
 
 ipcMain.handle(util.IPC_LISTENER_GENERATE, async (event, name, system) => {

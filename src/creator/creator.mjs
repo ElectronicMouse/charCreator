@@ -8,19 +8,20 @@ import path from "path";
 const parser = new Parser();
 
 export default class Creator {
+
+  categories = [];
+  resultStats = new Map();
+  resultModifiers = new Map();
+  statsAmAt = 0;
+
   constructor(util) {
     this.util = util;
-    this.categories = [];
-    this.resultStats = new Map();
-    this.resultModifiers = new Map();
-    this.statsAmAt = 0;
   }
 
   /**
    * Loads system JSON file (systems/*.json)
    */
   loadSystem(systemName) {
-    console.log("Loading system: " + systemName);
     const systemsFile = path.join(
       this.util.SYSTEMS_DIR,
       systemName,
@@ -32,7 +33,7 @@ export default class Creator {
     }
 
     try {
-      const raw = fs.readFileSync(systemsFile, "utf8");
+      const raw = fs.readFileSync(systemsFile, this.util.ISO_UTF8);
       const systems = JSON.parse(raw);
       systems.forEach(sys => {
 
@@ -75,7 +76,6 @@ export default class Creator {
    * Calculates stats based on roll pattern or numeric max
    */
   calculate(category) {
-    console.log("Calculating stats for skills:", category.skills, "with pattern:", category.statCalculation);
     let pattern = category.statCalculation;
     for (let i = 0; i < category.skills.length; i++) {
       if (!isNaN(Number(pattern))) {
