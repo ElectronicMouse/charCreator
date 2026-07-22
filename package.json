@@ -1,7 +1,7 @@
 {
   "name": "charcreator",
   "version": "1.0.0",
-  "description": "creates char",
+  "description": "creates characters for ttrpgs",
   "main": "main.js",
   "type": "module",
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "keywords": [],
   "author": "ChattyTurtle (ElectronicMouse)",
-  "license": "Creative Commons Legal Code",
+  "license": "AGPL-3.0-only",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1"
   },
