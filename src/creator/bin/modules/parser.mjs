@@ -106,4 +106,22 @@ export default class Parser {
     this.bool = false;
     this.arrayOfChars.splice(0, this.arrayOfChars.length);
   }
+  
+  parseModifier(pattern, stat) {
+    if (pattern === null || pattern === undefined) {
+      return null;
+    }
+    let expresion = pattern.replaceAll("stat", stat);
+    let floor = false;
+    if(expresion.includes("f")) {
+      expresion = expresion.replaceAll("f", "");
+      floor = true;
+    }
+
+    if (!/^[0-9+\-*/().\s]+$/.test(expresion)) {
+      throw new Error("Invalid characters in expression");
+    }
+
+    return floor ? Math.floor(Function(`"use strict"; return (${expresion});`)()) : Function(`"use strict"; return (${expresion});`)();
+  }
 };
