@@ -27,7 +27,6 @@ export default class Creator {
       systemName,
       `${systemName}${this.util.JSON_SUFFIX}`
     );
-    console.log(systemsFile);
     if (!fs.existsSync(systemsFile)) {
       throw new Error(`System file not found: ${systemsFile}`);
     }
@@ -41,8 +40,9 @@ export default class Creator {
         let sysStatCalculation = this.util.check(sys.statCalculation, "1");
         let sysSkills = this.util.check(sys.skills, []);
         let sysSubfunctions = this.util.check(sys.subfunctions, []);
+        let sysModPattern = this.util.check(sys.modPattern, null);
         this.categories.push(
-          new Category(sysName, sysStatCalculation, sysSkills, sysSubfunctions)
+          new Category(sysName, sysStatCalculation, sysSkills, sysSubfunctions, sysModPattern)
         );
       });
     } catch (err) {
@@ -55,7 +55,6 @@ export default class Creator {
    */
   characterCreate(name, systemName) {
     this.loadSystem(systemName);
-    console.log(this.categories);
     // calculate stats
     this.categories.forEach(category => {
       this.calculate(category);
@@ -77,14 +76,19 @@ export default class Creator {
    */
   calculate(category) {
     let pattern = category.statCalculation;
+    let modifierPattern = category.modPattern;
+    console.log(`Calculating pattern: ${category.statCalculation}`);
+    console.log(`Modifier pattern: ${modifierPattern}`);
     for (let i = 0; i < category.skills.length; i++) {
       if (!isNaN(Number(pattern))) {
         // numeric pattern
         let randomFraction = Math.round(Math.random() * pattern);
         this.resultStats.set(category.skills[i], randomFraction);
+        this.resultModifiers.set(category.skills[i], parser.parseModifier(modifierPattern, this.resultStats.get(category.skills[i])));
       } else {
         //dice pattern
         this.resultStats.set(category.skills[i], parser.parse(pattern));
+        this.resultModifiers.set(category.skills[i], parser.parseModifier(modifierPattern, this.resultStats.get(category.skills[i])));
         parser.clear();
       }
     }
@@ -111,7 +115,7 @@ export default class Creator {
       array.forEach(skill => {
         fs.appendFileSync(
           path,
-          `\t\t${skill}: ${this.resultStats.get(skill)}\n`
+          `\t\t${skill}: ${this.resultStats.get(skill)}\n\t\t${skill} modifier: ${this.resultModifiers.get(skill)}\n`
         );
       });
     } catch (err) {

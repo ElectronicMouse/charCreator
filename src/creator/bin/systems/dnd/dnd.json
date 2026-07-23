@@ -2,6 +2,7 @@
   {
     "name": "Stats - 4d6 drop lowest 1",
     "statCalculation": "4d6h3",
+    "modPattern": "f(stat-10)/2",
     "skills": [
       "strength",
       "constitution",
